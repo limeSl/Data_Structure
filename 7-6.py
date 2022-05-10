@@ -10,9 +10,6 @@
 트리 생성 시점에 부모 노드에 대한 링크 설정
 '''
 
-from pickle import NONE
-
-
 class Node:
     def __init__(self, item):
         self.data = item
@@ -21,11 +18,9 @@ class Node:
         self.parent = None
 
 class Heap:
-    def __init__(self, num):
+    def __init__(self):
         self.root = None
         self.tail = None
-        self.size = num
-        self.heap = [NONE]
         self.count = 0
 
     def isEmpty(self):
@@ -36,3 +31,5 @@ class Heap:
 
     def add_heap(self, item):
         self.count += 1
+        i = self.count
+        while i != 1 and item > self.heap [i//2]:
