@@ -32,4 +32,4 @@ class Heap:
     def add_heap(self, item):
         self.count += 1
         i = self.count
-        while i != 1 and item > self.heap [i//2]:
+        
