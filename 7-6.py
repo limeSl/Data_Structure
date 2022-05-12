@@ -32,4 +32,7 @@ class Heap:
     def add_heap(self, item):
         self.count += 1
         i = self.count
-        
+        #item이 부모보다 클때까지 (i//2)
+        while i != 1 :
+            pass
+        #i가 도달한 자리에 item 넣기
