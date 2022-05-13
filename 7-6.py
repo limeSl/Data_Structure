@@ -10,6 +10,7 @@
 트리 생성 시점에 부모 노드에 대한 링크 설정
 '''
 
+
 class Node:
     def __init__(self, item):
         self.data = item
@@ -31,8 +32,12 @@ class Heap:
 
     def add_heap(self, item):
         self.count += 1
-        i = self.count
+        i = self.tail
         #item이 부모보다 클때까지 (i//2)
-        while i != 1 :
-            pass
+        while i.parent != None and item > i.parent:
+            i = i.parent
         #i가 도달한 자리에 item 넣기
+        i.data = item
+
+    def view(self):
+        pass
