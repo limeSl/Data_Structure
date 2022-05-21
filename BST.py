@@ -58,7 +58,7 @@ class BST:
             elif node.left is None and node.right is None:      # 단말 노드
                 return None
             else:                               # 자식이 2개인 노드 삭제
-                if self.height(node.right) > self.height(node.left):
+                if self.height(node.right) > self.height(node.left): # 오른쪽 서브트리가 더 깊은 경우
                     right_min = self.find_min(node.right)       # 오른쪽의 최소값
                     node.data = right_min.data
                     node.right = self.delete_node(node.right, right_min.data)
@@ -86,7 +86,7 @@ class BST:
             node = node.left
         return node
 
-    def height(self, root):
+    def height(self, root):         # 루트부터 트리의 높이
         if root is None:
             return -1
 
