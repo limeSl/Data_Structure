@@ -43,6 +43,16 @@ class Linkedlist:
             temp = temp.rlink
         return None
 
+    #item의 인덱스를 반환
+    def findIndex(self, item):
+        index = 0
+        temp = self.head.rlink
+        while temp != self.head:
+            if temp.data == item: return index
+            index = index + 1
+            temp = temp.rlink
+        return None
+
     def view(self):
         temp = self.head.rlink
         print("[", end=' ')
@@ -73,14 +83,15 @@ class Linkedlist:
         crt = self.find(item.name)
         #없었다면 헤드부터
         if not crt: crt = self.head.rlink
-        else: crt.data = 0
+        else: crt.data = 0   #원래 장소 0으로 설정
+        move = index
 
         #index가 음수값
-        if index<0: 
+        if index<0:
             item.course = not item.course
-            index = abs(index)
+            move = abs(move)
         
-        for i in range(index):
+        for i in range(move):
             if item.course:
                 crt = crt.rlink
                 if crt == self.head:
@@ -89,6 +100,10 @@ class Linkedlist:
                 crt = crt.llink
                 if crt == self.head:
                     crt = crt.llink
+        
+        #index가 음수라서 바꾸었던 방향 원래대로
+        if index<0:
+            item.course = not item.course
 
         #도착한 곳에 이미 데이터가 있다면
         if crt.data:
@@ -98,8 +113,13 @@ class Linkedlist:
 
     #서로의 데이터 값만 바꿔줌
     def trade(self, item1, item2):
-        self.find(item1.name).data = item2.name
-        self.find(item2.name).data = item1.name
+        #p1이 p2보다 뒤에있을 경우 p1부터 p2로 바꾸고 p2를 바꿔줌
+        if self.findIndex(item1.name) > self.findIndex(item2.name):
+            self.find(item1.name).data = item2.name
+            self.find(item2.name).data = item1.name
+        else:
+            self.find(item2.name).data = item1.name
+            self.find(item1.name).data = item2.name
 
 
 #게임 초기 세팅
@@ -119,7 +139,7 @@ print("___________________________________________________")
 while True:
     dice1 = random.randint(1, 6)
     dice2 = random.randint(1, 6)
-    event = ""
+    event = None
 
     if dice1 == 6 and dice2 == 6:
         #reverse
@@ -132,11 +152,15 @@ while True:
     elif dice1 == 1 and dice2 == 1:
         #back
         lst.move(players[turn%2], -1)
+        event = "go back"
     else:
         lst.move(players[turn%2],dice1 + dice2)
     
     #매 턴 상태 출력
-    print("\n",turn+1,"turn   (",dice1,",",dice2,") ",event)
+    if event:   #이벤트 발생했을 경우
+        print("\n",turn+1,"turn: player",turn%2 + 1, " (",dice1,",",dice2,") " ,event)
+    else:       #일반적인 전진
+        print("\n",turn+1,"turn: player",turn%2 + 1, " (",dice1,",",dice2,") move" ,dice1 + dice2)
     lst.view()
 
     #게임 종료
@@ -145,6 +169,6 @@ while True:
         break
 
     turn += 1
-    event = ""
+    event = None
 
 input()
